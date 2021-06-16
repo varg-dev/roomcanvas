@@ -7,9 +7,10 @@ They allow for importing 3D floor plans and for precomputing visualization asset
 
 This directory is structured as follows:
 
-| Directory                                                                   | Description                                                                                          |
-| --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| [`blender-distance-volume-add-on`](/toolkit/blender-distance-volume-add-on) | A Blender add-on for precomputing 3D distance volumes                                                |
-| [`sweet-home-3d-importer`](/toolkit/sweet-home-3d-importer)                 | A TypeScript-based CLI program for importing Sweet Home 3D building models as 3D floor plans         |
+| Directory                                                                                   | Description                                                                                                  |
+| ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| [`blender-distance-volume-add-on`](/toolkit/blender-distance-volume-add-on)                 | A Blender add-on for precomputing 3D distance volumes                                                        |
+| [`sweet-home-3d-importer`](/toolkit/sweet-home-3d-importer)                                 | A TypeScript-based CLI program for importing Sweet Home 3D building models as 3D floor plans                 |
+| [`magicavoxel-distance-map-visualization`](/toolkit/magicavoxel-distance-map-visualization) | A set of Python-based Jupyter Notebook files for converting the 3D distance volumes to MagicaVoxel VOX files |
 
 For instructions about the individual components and their setup, view the respective README files of the directories.
