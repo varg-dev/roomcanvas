@@ -1,0 +1,94 @@
+
+// customize bootstrap
+
+@import "fonts";
+
+// TODO: Properly include the react-datepicker styles using the following syntax, instead of manually adding it to the HTML’s <head>
+// @import "~react-datepicker/dist/react-datepicker.css";
+
+$enable-flex: true;
+$enable-rounded: false;
+
+$font-family-sans-serif: 'Roboto';
+$font-family-monospace: 'Roboto Mono';
+
+$headings-font-weight: 300;
+$font-weight-bold: 700;
+
+$card-spacer-x: 0rem;
+$card-border-width: 0;
+
+$light: white;
+
+$font-size-base: 1rem !default; // Assumes the browser default, typically `16px`
+
+
+// bootstrap modules - include path set by package script "sass"
+
+@import "functions";
+@import "variables";
+@import "mixins";
+@import "root";
+@import "reboot";
+@import "type";
+@import "images";
+@import "code";
+@import "grid";
+// @import "tables";
+@import "forms";
+@import "buttons";
+@import "transitions";
+@import "dropdown";
+@import "button-group";
+@import "input-group";
+@import "custom-forms";
+// @import "nav";
+// @import "navbar";
+// @import "card";
+// @import "breadcrumb";
+// @import "pagination";
+// @import "badge";
+// @import "jumbotron";
+@import "alert";
+// @import "progress";
+// @import "media";
+// @import "list-group";
+// @import "close";
+// @import "toasts";
+// @import "modal";
+// @import "tooltip";
+// @import "popover";
+// @import "carousel";
+@import "spinners";
+@import "utilities";
+// @import "print";
+
+
+// overrides & specializations
+
+
+footer img {
+    height: $h5-font-size;
+}
+
+.react-datepicker-popper {
+    z-index: 1020;
+}
+
+.overflow-y-scroll {
+    overflow-y: scroll;
+}
+
+.control-group {
+    border-left: 1px solid #efefef;
+    background-color: #fbfbfb;
+    padding-top: 1rem;
+}
+
+svg.function-plot g.graph circle {
+    r: 5;
+}
+
+// body {
+//     background-color: rgba(0.85098039 * 255, 0.87450980 * 255, 0.90980392 * 255, 1.0);
+// }

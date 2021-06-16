@@ -1,0 +1,75 @@
+sensorPositions:
+    320: [3.4572, 1.573, -2.06743] # Luftdruck Küche 
+    321: [3.4572, 1.573, -2.06743] # Ladestand Küche 
+    322: [3.4572, 1.573, -2.06743] # Luftfeuchte Küche 
+    323: [1.40336, 2.503, -3.90473] # Fensteröffnung Küche 
+    324: [3.4572, 1.573, -2.06743] # Temperatur Küche 
+    325: [6.10165, 0.24, -2.28917] # Luftdruck Bad
+    326: [6.10165, 0.24, -2.28917] # Ladestand Bad
+    327: [6.10165, 0.24, -2.28917] # Luftfeuchte Bad
+    328: [5.16513, 2.05, -4.11512] # Fensteröffnung Bad
+    329: [6.10165, 0.24, -2.28917] # Temperatur Bad
+    330: [13.064, 0.24, 3.9636] # Luftdruck Zimmer 1
+    331: [13.064, 0.24, 3.9636] # Ladestand Zimmer 1
+    332: [13.064, 0.24, 3.9636] # Luftfeuchte Zimmer 1
+    333: [17.1749, 2.03679, 7.48572] # Fensteröffnung Zimmer 1
+    334: [13.064, 0.24, 3.9636] # Temperatur Zimmer 1
+    335: [5.89765, 0.24, 6.13999] # Luftdruck Zimmer 2
+    336: [5.89765, 0.24, 6.13999] # Ladestand Zimmer 2
+    337: [5.89765, 0.24, 6.13999] # Luftfeuchte Zimmer 2
+    338: [8.71795, 2.15, 9.56429] # Fensteröffnung Zimmer 2 - 2
+    339: [6.98597, 2.15, 9.56429] # Fensteröffnung Zimmer 2 - 1
+    340: [5.89765, 0.24, 6.13999] # Temperatur Zimmer 2
+    341: [1.74504, 0.24, 2.07154] # Luftdruck Flur  1
+    342: [1.74504, 0.24, 2.07154] # Ladestand Flur  1
+    343: [1.74504, 0.24, 2.07154] # Luftfeuchte Flur  1
+    344: [1.74504, 0.24, 2.07154] # Temperatur Flur  1
+    345: [7.40871, 0.24, 2.07154] # Luftdruck Flur  2
+    346: [7.40871, 0.24, 2.07154] # Ladestand Flur  2
+    347: [7.40871, 0.24, 2.07154] # Luftfeuchte Flur  2
+    348: [7.40871, 0.24, 2.07154] # Temperatur Flur  2
+sensorLabels: 
+    334: 'Temperatur Zimmer 1'
+    340: 'Temperatur Zimmer 2'
+    329: 'Temperatur Bad'
+    324: 'Temperatur Küche'
+    344: 'Temperatur Flur (1)'
+    348: 'Temperatur Flur (2)'
+positionAndLocale:
+    latitude: 52.5165
+    longitude: 13.479
+    northOffsetRadians: 1.047 # 60 degrees
+    timeZone: 'Europe/Berlin' # Name of the IANA time zone of the building’s location
+    distanceOfSunToSceneOrigin: 40.0 # Distance in meters of the directional light source used for the sun from the scene‘s (apartment’s) origin
+defaultDisplayConfiguration:
+    labeledSensorIds: [324, 329, 334, 340, 344, 348]
+    liveDataSensorIds: [324, 329, 334, 340, 344, 348]
+    outsideTemperatureAssetId: 78
+    outsideTemperatureSensorId: 380
+    storedCameraPositions:
+        - center: [7.8, 0.0, 3.9]
+          eye: [22.7, 23.4, 20.2]
+          up: [0.0, 1.0, 0.0]
+          label: 'Overview'
+          id: 0
+        - center: [7.8, 0.0, 3.9]
+          eye: [-22.7, 23.4, 20.2]
+          up: [0.0, 1.0, 0.0]
+          label: 'Overview from left'
+          id: 1
+    cameraConfiguration:
+        near: 1.0 # TODO(config): Actually use this
+        far: 512.0 # TODO(config): Actually use this
+    labelingMetadata:
+        showMetadata: true # TODO(config): Actually use this
+        assetName: 'Eurovis, Zurich 21' # TODO(config): Actually use this
+    # fontSizeInMeters: 1.0 # Optional property -- default is 1.0, thus, this can be left commented-out
+distanceMaps:
+    amountOfSlices: 28
+buildingModel:
+    hierarchyGltf: 'asset-78__hierarchy.gltf'
+    presentationGlb: 'asset-78.glb'
+    containsLightmap: true
+    apartmentBboxMin: [-1.8249350786209106, 0.0, -5.399456024169922]
+    apartmentBboxMax: [17.7653865814209, 3.4400007724761963, 10.044034004211426]
+    basePlaneYOffset: -10.32

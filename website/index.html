@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- Bootstrap CSS -->
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+            integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+            crossorigin="anonymous"
+        />
+
+        <!-- Bootstrap styling overrides -->
+        <link rel="stylesheet" href="styles/style.min.css" />
+
+        <!-- Linear icons -->
+        <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css" />
+
+        <!-- Empty Favicon -->
+        <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
+
+        <!-- Custom styling -->
+        <style>
+            .hyphens-auto {
+                hyphens: auto;
+            }
+
+            @media (min-width: 576px) {
+                .hyphens-sm-initial {
+                    hyphens: initial;
+                }
+            }
+
+            .lnr {
+                display: inline-block;
+                vertical-align: -1px;
+            }
+
+            .lnr:before {
+                display: inline-block;
+            }
+
+            a:hover .lnr {
+                text-decoration: none;
+            }
+
+            .width-1 {
+                width: 1rem;
+            }
+        </style>
+
+        <title>RoomCanvas: A Visualization System for Spatiotemporal Temperature Data in Smart Homes</title>
+        <meta property="og:description" content="RoomCanvas is a web-based, interactive visualization system for display and exploration of spatiotemporal sensor data in smart homes." />
+
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:creator" content="@EuroVisConf">
+        <meta name="twitter:title" content="RoomCanvas: A Visualization System for Spatiotemporal Temperature Data in Smart Homes">
+        <meta name="twitter:description" content="RoomCanvas is a web-based, interactive visualization system for display and exploration of spatiotemporal sensor data in smart homes. For more details, please visit: roomcanvas.dev.">
+        <meta name="twitter:image" content="https://roomcanvas.dev/assets/twitter-card.png">
+    </head>
+    <body>
+        <div class="container font-weight-light pb-5">
+            <div class="row">
+                <div class="col-10 offset-1 text-center">
+                    <h1 class="mt-5 hyphens-auto hyphens-sm-initial">
+                        RoomCanvas: A Visualization System for Spatiotemporal Temperature Data in Smart Homes
+                    </h1>
+                    <div class="h5 mt-3 font-weight-light">
+                        B.&nbsp;König, D.&nbsp;Limberger, J.&nbsp;Klimke, B.&nbsp;Hagedorn, and J.&nbsp;Döllner
+                    </div>
+                    <div class="h6 mt-3 font-weight-light">
+                        Hasso Plattner Institute, Digital Engineering Faculty, University of Potsdam, Germany
+                    </div>
+                    <div class="h6 mt-3 font-weight-bold">EuroVis 2021 (Short Paper)</div>
+                </div>
+            </div>
+            <div class="row mt-3 justify-content-md-center">
+                <div class="col-md-3 text-center mb-2">
+                    <a href="https://doi.org/10.2312/evs.20211048" class="btn btn-lg rounded-0 btn-dark">
+                        <span class="lnr lnr-file-empty"></span> <span class="ml-1 mr-1">Paper</span>
+                    </a>
+                </div>
+                <div class="col-md-3 text-center mb-2">
+                    <a href="/demo" class="btn btn-lg rounded-0 btn-primary"
+                        ><span class="lnr lnr-screen"></span> <span class="ml-1 mr-1">Try it out!</span></a
+                    >
+                </div>
+                <div class="col-md-3 text-center mb-2">
+                    <a href="https://github.com/varg-dev/roomcanvas" class="btn btn-lg rounded-0 btn-dark">
+                        <span class="lnr lnr-code"></span> <span class="ml-1 mr-1">Code on GitHub</span>
+                    </a>
+                </div>
+            </div>
+            <div class="row mt-5 justify-content-md-between">
+                <div class="col-10 offset-1 col-sm-12 offset-sm-0 col-md-6 col-lg-3 mb-2 px-1">
+                    <img src="images/teaser_a.png" class="img-fluid" width="614" height="614" alt="" loading="lazy" />
+                </div>
+                <div class="col-10 offset-1 col-sm-12 offset-sm-0 col-md-6 col-lg-3 mb-2 px-1">
+                    <img src="images/teaser_b-c.png" class="img-fluid" width="614" height="614" alt="" loading="lazy" />
+                </div>
+                <div class="col-10 offset-1 col-sm-12 offset-sm-0 col-md-6 col-lg-3 mb-2 px-1">
+                    <img src="images/teaser_d-e.png" class="img-fluid" width="614" height="614" alt="" loading="lazy" />
+                </div>
+                <div class="col-10 offset-1 col-sm-12 offset-sm-0 col-md-6 col-lg-3 mb-2 px-1">
+                    <img src="images/teaser_f.png" class="img-fluid" width="614" height="614" alt="" loading="lazy" />
+                </div>
+                <div class="col-10 offset-1 col-sm-12 offset-sm-0 px-1 hyphens-auto hyphens-sm-initial">
+                    <figcaption>
+                        <em>RoomCanvas</em> depicting data from multiple temperature sensors of an apartment using a diverging color scale:
+                        (a) interpolated and projected to walls, floors, and ceilings, (b) aggregated per-room, or (c) displayed using
+                        volumetric rendering. Our interpolation has spatial awareness of room-boundaries, doors, and windows. (d) and (e)
+                        showcase the geometric detail and different times of day, enabling indoor views and recognizable structural
+                        elements. (f) shows our adaptive label positioning and interactive highlighting of rooms. Sun position and lighting
+                        are simulated for the time and day at the geographic position in (a) to (e) and the outside temperature is taken
+                        into account as well.
+                    </figcaption>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-12 text-center">
+                    <h2>Abstract</h2>
+                </div>
+                <div class="col-12 offset-0 col-sm-10 offset-sm-1 mt-3">
+                    <p>
+                        Spatiotemporal measurements such as power consumption, temperature, humidity, movement, noise, brightness, etc.,
+                        will become ubiquitously available in both old and modern homes to capture and analyze behavioral patterns. The data
+                        is fed into analytics platforms and tapped by services but is generally not readily available to consumers for
+                        exploration due in part to its inherent complexity and volume.
+                    </p>
+                    <p>
+                        We present an interactive visualization system that uses a simplified 3D representation of building interiors as a
+                        canvas for a unified sensor data display. The system’s underlying visualization supports spatial as well as temporal
+                        accumulation of data, e.g., temperature and humidity values. It introduces a volumetric data interpolation approach
+                        which takes 3D room boundaries such as walls, doors, and windows into account. We showcase an interactive, web-based
+                        prototype that allows for the exploration of historical as well as real-time data of multiple temperature and
+                        humidity sensors. Finally, we sketch an integrated pipeline from sensor data acquisition to visualization, discuss
+                        the creation of semantic geometry and subsequent preprocessing, and provide insights into our real-time rendering
+                        implementation.
+                    </p>
+                </div>
+            </div>
+            <div class="row mt-5 justify-content-center">
+                <div class="col-12 text-center">
+                    <h2>Paper</h2>
+                </div>
+                <div class="col-12 mt-3 mb-3 col-md-4">
+                    <a href="https://doi.org/10.2312/evs.20211048">
+                        <img src="images/paper-thumbnail.png" class="img-fluid shadow-lg" width="595" height="841" alt="" loading="lazy" />
+                    </a>
+                </div>
+                <div class="col-12 mt-3 col-md-4">
+                    <div class="h5">RoomCanvas: A Visualization System for Spatiotemporal Temperature Data in Smart Homes</div>
+                    <div class="h5 mt-3 font-weight-light">
+                        B.&nbsp;König, D.&nbsp;Limberger, J.&nbsp;Klimke, B.&nbsp;Hagedorn, and J.&nbsp;Döllner
+                    </div>
+                    <div class="mt-5">
+                        <a
+                            class="d-flex align-items-baseline w-100"
+                            href="https://doi.org/10.2312/evs.20211048"
+                        >
+                            <span class="lnr lnr-file-empty"></span><span class="ml-2">Paper (diglib.eg.org)</span>
+                        </a>
+                    </div>
+                    <div class="mt-2">
+                        <a class="d-flex align-items-baseline w-100" href="/demo">
+                            <span class="lnr lnr-screen"></span><span class="ml-2">Live prototype (under ongoing development)</span>
+                        </a>
+                    </div>
+                    <div class="mt-2">
+                        <a
+                            class="d-flex align-items-baseline w-100"
+                            href="assets/RoomCanvas_-_A_Visualization_System_for_Spatiotemporal_Temperature_Data_in_Smart_Homes.bib"
+                            download
+                        >
+                            <span class="lnr lnr-book"></span><span class="ml-2">BibTeX citation</span>
+                        </a>
+                    </div>
+                    <div class="mt-2">
+                        <a
+                            class="d-flex align-items-baseline w-100"
+                            href="https://github.com/varg-dev/roomcanvas"
+                        >
+                            <span class="lnr lnr-code"></span><span class="ml-2">Code on GitHub</span>
+                        </a>
+                    </div>
+                    <div class="mt-2">
+                        <span class="d-flex align-items-baseline w-100">
+                            <span class="lnr lnr-film-play flex-shrink-0"></span>
+                            <span class="ml-2 text-muted">
+                                Will be presented at <a href="https://www.eurovis.org/" target="_blank">EuroVis 2021 (14–18 June 2021)</a>
+                            </span>
+                        </span>
+                    </div>
+                    <div class="mt-4">For further questions, comments, and collaborations feel free to contact us:</div>
+                    <div class="mt-2">
+                        <a
+                            class="d-flex align-items-baseline w-100"
+                            href="mailto:bastian.koenig@student.hpi.de"
+                        >
+                            <span class="lnr lnr-envelope flex-shrink-0"></span>
+                            <span class="ml-2">
+                                bastian.koenig@student.hpi.de</a>
+                            </span>
+                        </span>
+                    </div>
+                    <div class="mt-2">
+                        <a
+                            class="d-flex align-items-baseline w-100"
+                            href="mailto:daniel.limberger@hpi.de"
+                        >
+                            <span class="lnr lnr-envelope flex-shrink-0"></span>
+                            <span class="ml-2">
+                                daniel.limberger@hpi.de</a>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-5 justify-content-center">
+                <div class="col-12 text-center">
+                    <h2>Citation</h2>
+                </div>
+                <div class="col-12 mt-3 col-md-10">
+                    <pre class="bg-light px-4 py-3">
+@inproceedings {s.20211048,
+    booktitle = {EuroVis 2021 - Short Papers},
+    editor = {Agus, Marco and Garth, Christoph and Kerren, Andreas},
+    title = {{RoomCanvas: A Visualization System for Spatiotemporal Temperature Data in Smart Homes}},
+    author = {König, Bastian and Limberger, Daniel and Klimke, Jan and Hagedorn, Benjamin and Döllner, Jürgen},
+    year = {2021},
+    publisher = {The Eurographics Association},
+    ISBN = {978-3-03868-143-4},
+    DOI = {10.2312/evs.20211048}
+}
+</pre>
+                </div>
+            </div>
+            <div class="row mt-5 justify-content-center">
+                <div class="col-12 text-center">
+                    <h2>Acknowledgements</h2>
+                </div>
+                <div class="col-12 mt-3 col-md-8">
+                    <p>
+                        This work has been partially supported by the German Federal Ministry of Education and Research (BMBF) through grant 01IS19006 (“KI-Labor ITSE”).
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Optional JavaScript; choose one of the two! -->
+
+        <!-- Option 1: Bootstrap Bundle with Popper -->
+        <!-- <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8"
+            crossorigin="anonymous"
+        ></script> -->
+
+        <!-- Option 2: Separate Popper and Bootstrap JS -->
+        <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js" integrity="sha384-lpyLfhYuitXl2zRZ5Bn2fqnhNAKOAaM/0Kr9laMspuaMiZfGmfwRNFh8HlMy49eQ" crossorigin="anonymous"></script>
+    --></body>
+</html>

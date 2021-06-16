@@ -1,0 +1,7 @@
+info face="weather-sensor Regular" size=187.5 bold=0 italic=0 charset="unic" unicode=1 padding=16,16,16,16 spacing=0,0 
+common lineHeight=204.375 base=159.375 ascent=157.875 descent=-28.125 scaleW=512 scaleH=256 pages=1 packed=0
+page id=0 file="weather-sensor-a7cb1a84.png"
+chars count=2
+char id=65 x=0 y=0 width=220 height=217 xoffset=0 yoffset=1.5 xadvance=187.5 page=1 chnl=15
+char id=66 x=220 y=0 width=220 height=217 xoffset=0 yoffset=1.5 xadvance=187.5 page=1 chnl=15
+kernings count=0

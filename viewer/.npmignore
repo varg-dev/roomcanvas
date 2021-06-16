@@ -1,0 +1,14 @@
+.vscode/
+.git/
+.bithoundrc
+.gitignore
+.nycrc
+.nyc_output
+.travis.yml
+
+tsconfig.*
+webpack.*
+tslint.*
+
+blender-addon/
+build/

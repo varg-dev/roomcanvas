@@ -1,0 +1,12 @@
+.nyc_output
+.git
+node_modules/
+lib/
+build/
+.DS_Store
+*.code-workspace
+*.blend1
+.env
+
+.vscode/.ropeproject
+.idea/

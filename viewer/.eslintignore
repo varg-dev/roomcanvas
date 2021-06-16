@@ -1,0 +1,5 @@
+.vscode
+*.js
+
+build
+example

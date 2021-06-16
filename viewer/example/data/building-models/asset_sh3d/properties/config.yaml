@@ -1,0 +1,16 @@
+positionAndLocale:
+  latitude: 48.866670802969566
+  longitude: 2.333333091934697
+  northOffsetRadians: 2.9146998
+  timeZone: Europe/Paris
+buildingModel:
+  presentationGlb: asset_sh3d__scaled.glb
+  hierarchyGltf: asset_sh3d__hierarchy.gltf
+  apartmentBboxMin:
+    - -0.05199994891881943
+    - 0.0000037997961044311523
+    - -0.15999984741210938
+  apartmentBboxMax:
+    - 7.479992866516113
+    - 2.5000014305114746
+    - 4.651995658874512

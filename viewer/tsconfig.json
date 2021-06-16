@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "jsx": "react",
+        "module": "commonjs",
+        "target": "ES6",
+        "lib": ["dom", "es2015", "es2019.string", "ES2019.Array"],
+        "outDir": "lib",
+        "sourceMap": true,
+        "declaration": true,
+        "alwaysStrict": true,
+        "noImplicitAny": true,
+        "noUnusedParameters": false,
+        "noUnusedLocals": true,
+        "strictNullChecks": true,
+        "removeComments": false,
+        "preserveConstEnums": true,
+        "allowSyntheticDefaultImports": false,
+        "skipLibCheck": true,
+        "experimentalDecorators": true
+    },
+    "include": ["source"]
+}
