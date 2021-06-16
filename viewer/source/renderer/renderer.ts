@@ -2591,7 +2591,7 @@ export class RoomCanvasRenderer extends Renderer {
         this._outsideDistanceMapTexture3D.filter(gl.LINEAR, gl.LINEAR);
 
         void this._outsideDistanceMapTexture3D
-            .load(`${this.assetContentRoot}distance-maps/outside.png`, this.distanceMapHeightSlices, false, true)
+            .load(`https://roomcanvas.dev/demo/${this.assetContentRoot}distance-maps/outside.png`, this.distanceMapHeightSlices, false, true)
             .then(() => {
                 this.invalidate(true);
             });
