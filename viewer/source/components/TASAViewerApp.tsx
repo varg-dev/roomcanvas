@@ -6,7 +6,7 @@
 
 import * as React from 'react';
 
-import { DateTime } from 'luxon';
+import { DateTime, Duration, DurationObject } from 'luxon';
 
 import { vec3 } from 'webgl-operate';
 import { Camera } from 'webgl-operate';
@@ -24,6 +24,10 @@ import { TASASensorSingleData, TASASensorValues, useTASAData } from './TASADataP
 import { SamplingMode } from './TASAHistoricalDataDispatcher';
 
 import { RoomCanvasViewer, ColorScaleConfiguration } from './RoomCanvasViewer';
+export interface SensorInAsset {
+    assetId: number;
+    sensorId: number;
+}
 
 // TODO: After extending the font’s character set, allow for locale agostic datetime formatting by removing this explicit one
 const DATE_AND_TIME_DISPLAY_LOCALE = 'en-en';
@@ -71,6 +75,7 @@ const findClosestSensorDataEntry = (
     sensorData: Map<string, TASASensorSingleData>,
     interpolateBetweenNearestValues: boolean = false,
     show1stDerivative: boolean = false,
+    maxDurationOffset?: DurationObject,
 ): TASASensorSingleData | undefined => {
     const datetime = DateTime.fromMillis(datetimeMillis);
     if (interpolateBetweenNearestValues) {
@@ -82,7 +87,8 @@ const findClosestSensorDataEntry = (
                     sensorDataEntry,
                 };
             })
-            .filter((entry) => entry.timeDiff !== undefined);
+            .filter((entry) => entry.timeDiff !== undefined)
+            .filter((entry) => !maxDurationOffset || Math.abs(entry.timeDiff!) <= Duration.fromObject(maxDurationOffset).valueOf());
         let entryBefore;
         let entryAfter;
         if (sensorValueTimeDiffs.some((entry) => entry.timeDiff! < 0)) {
@@ -141,7 +147,7 @@ const findClosestSensorDataEntry = (
                 value: parseFloat(parseFloat(entryAfter.sensorDataEntry.value as string).toFixed(2)),
             };
         } else {
-            throw new Error('No data points for interpolation have been given');
+            return undefined;
         }
     } else {
         let clostestSampleDistance = Infinity;
@@ -150,6 +156,11 @@ const findClosestSensorDataEntry = (
             const sensorDataEntryDatetime = DateTime.fromISO(sensorDataEntry.timestamp);
             const diffInMs = sensorDataEntryDatetime.diff(datetime).toObject().milliseconds;
             if (diffInMs && Math.abs(diffInMs) < clostestSampleDistance) {
+                if (maxDurationOffset) {
+                    if (Math.abs(diffInMs) > Duration.fromObject(maxDurationOffset).valueOf()) {
+                        continue;
+                    }
+                }
                 clostestSampleDistance = Math.abs(diffInMs);
                 closestSensorEntry = sensorDataEntry;
             }
@@ -160,7 +171,7 @@ const findClosestSensorDataEntry = (
                 value: parseFloat(parseFloat(closestSensorEntry.value as string).toFixed(2)),
             };
         }
-        throw new Error('No data points have been given');
+        return undefined;
     }
 };
 
@@ -246,6 +257,7 @@ const getSensorValues = (
     sensorPositions?: {
         sensorPositions: Map<number, [number, number, number]>;
     },
+    maxDurationOffset?: DurationObject,
 ): SensorValue[] | undefined => {
     const visualizeDataForDatetime = visualizeDataForDatetimeMillis ? DateTime.fromMillis(visualizeDataForDatetimeMillis) : undefined;
     return data !== undefined
@@ -269,6 +281,7 @@ const getSensorValues = (
                           sensorData.sensorData.get(samplingMode)!,
                           interpolateBetweenNearestValues,
                           show1stDerivative,
+                          maxDurationOffset,
                       );
                       if (closestSensorEntry) {
                           return {
@@ -291,6 +304,7 @@ const getSensorValues = (
                                 )) ?? -1,
                   };
               })
+              .filter(({ value }) => !!value)
         : undefined;
 };
 
@@ -325,7 +339,7 @@ const TASAViewerAppComp: React.FunctionComponent<{
     cameraUp?: vec3;
     showLabelsForSensorIds?: number[];
     visualizeValuesForSensorIds?: number[];
-    outsideTemperatureSensorId?: number;
+    outsideTemperatureSensors?: SensorInAsset[];
     showDebugInfo?: boolean;
     colorScaleConfiguration?: ColorScaleConfiguration;
     sunPosition?: [number, number, number];
@@ -385,7 +399,7 @@ const TASAViewerAppComp: React.FunctionComponent<{
     cameraUp,
     showLabelsForSensorIds,
     visualizeValuesForSensorIds,
-    outsideTemperatureSensorId,
+    outsideTemperatureSensors,
     showDebugInfo,
     colorScaleConfiguration,
     sunPosition,
@@ -510,24 +524,28 @@ const TASAViewerAppComp: React.FunctionComponent<{
         if (!loadingIsFinished) {
             return;
         }
-        if (!outsideTemperatureSensorId) {
+        if (!outsideTemperatureSensors || outsideTemperatureSensors.length < 1) {
             return;
         }
-        const sensorValues = getSensorValues(
-            samplingMode,
-            state.data?.sensorValues ? state.data.sensorValues : undefined,
-            [outsideTemperatureSensorId],
-            visualizeDataForDatetimeMillis,
-            interpolateBetweenNearestValues,
-            show1stDerivative,
-        );
-        if (!sensorValues || sensorValues.length === 0) {
-            return;
+        for (const { sensorId } of outsideTemperatureSensors) {
+            const sensorValues = getSensorValues(
+                samplingMode,
+                state.data?.sensorValues ? state.data.sensorValues : undefined,
+                [sensorId],
+                visualizeDataForDatetimeMillis,
+                interpolateBetweenNearestValues,
+                show1stDerivative,
+                undefined,
+                { hours: 12 },
+            );
+            if (sensorValues && sensorValues.length > 0) {
+                return sensorValues[0];
+            }
         }
-        return sensorValues[0];
+        return;
     }, [
         loadingIsFinished,
-        outsideTemperatureSensorId,
+        outsideTemperatureSensors,
         visualizeDataForDatetimeMillis,
         samplingMode,
         interpolateBetweenNearestValues,

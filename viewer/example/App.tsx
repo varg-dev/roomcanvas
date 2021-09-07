@@ -27,7 +27,7 @@ import { SamplingMode, TASAHistoricalDataDispatcher } from '../source/components
 
 import { FunctionPlot } from '../source/components/FunctionPlot';
 
-import { TASAViewerApp } from '../source/components/TASAViewerApp';
+import { SensorInAsset, TASAViewerApp } from '../source/components/TASAViewerApp';
 import { HoverEvent, LabellingAlgorithmOrderBy, SensorValueLabelsConfig } from '../source/renderer/renderer';
 
 const { v3 } = gl_matrix_extensions;
@@ -215,8 +215,10 @@ const App: React.FunctionComponent = () => {
     const [labeledSensorIds, setLabeledSensorIds] = React.useState([] as number[]);
     const [liveDataSensorIds, setLiveDataSensorIds] = React.useState([] as number[]);
 
-    const [outsideTemperatureAssetId, setOutsideTemperatureAssetId] = React.useState(undefined as undefined | number);
-    const [outsideTemperatureSensorId, setOutsideTemperatureSensorId] = React.useState(undefined as undefined | number);
+    const [outsideTemperatureSensorsMapped, setOutsideTemperatureSensorsMapped] = React.useState(
+        undefined as undefined | Map<number, number[]>,
+    );
+    const [outsideTemperatureSensors, setOutsideTemperatureSensors] = React.useState([] as SensorInAsset[]);
 
     const [apartmentBboxMin, setApartmentBboxMin] = React.useState([-1.8249350786209106, 0.0, -5.399456024169922] as [
         number,
@@ -410,8 +412,7 @@ const App: React.FunctionComponent = () => {
                     liveDataSensorIds: number[];
                     storedCameraPositions?: StoredCamera[];
                     fontSizeInMeters?: number;
-                    outsideTemperatureAssetId?: number;
-                    outsideTemperatureSensorId?: number;
+                    outsideTemperatureSensors?: SensorInAsset[];
                 };
                 distanceMaps?: {
                     amountOfSlices: number;
@@ -514,10 +515,23 @@ const App: React.FunctionComponent = () => {
                 buildingConfig.defaultDisplayConfiguration.liveDataSensorIds &&
                     setLiveDataSensorIds(buildingConfig.defaultDisplayConfiguration.liveDataSensorIds);
 
-                buildingConfig.defaultDisplayConfiguration.outsideTemperatureAssetId &&
-                    setOutsideTemperatureAssetId(buildingConfig.defaultDisplayConfiguration.outsideTemperatureAssetId);
-                buildingConfig.defaultDisplayConfiguration.outsideTemperatureSensorId &&
-                    setOutsideTemperatureSensorId(buildingConfig.defaultDisplayConfiguration.outsideTemperatureSensorId);
+                if (
+                    buildingConfig.defaultDisplayConfiguration.outsideTemperatureSensors &&
+                    buildingConfig.defaultDisplayConfiguration.outsideTemperatureSensors.length > 0
+                ) {
+                    const outsideTemperatureAssetSensors = new Map<number, number[]>();
+                    for (const assetInSensor of buildingConfig.defaultDisplayConfiguration.outsideTemperatureSensors) {
+                        if (outsideTemperatureAssetSensors.has(assetInSensor.assetId)) {
+                            const listOfSensors = outsideTemperatureAssetSensors.get(assetInSensor.assetId) || [];
+                            listOfSensors.push(assetInSensor.sensorId);
+                            outsideTemperatureAssetSensors.set(assetInSensor.assetId, listOfSensors);
+                        } else {
+                            outsideTemperatureAssetSensors.set(assetInSensor.assetId, [assetInSensor.sensorId]);
+                        }
+                    }
+                    setOutsideTemperatureSensorsMapped(outsideTemperatureAssetSensors);
+                    setOutsideTemperatureSensors(buildingConfig.defaultDisplayConfiguration.outsideTemperatureSensors);
+                }
 
                 if (
                     buildingConfig.defaultDisplayConfiguration.storedCameraPositions &&
@@ -2379,7 +2393,7 @@ const App: React.FunctionComponent = () => {
             samplingMode={samplingMode}
             showLabelsForSensorIds={labeledSensorIds}
             visualizeValuesForSensorIds={liveDataSensorIds}
-            outsideTemperatureSensorId={outsideTemperatureSensorId}
+            outsideTemperatureSensors={outsideTemperatureSensors && outsideTemperatureSensors.length > 0 ? outsideTemperatureSensors : undefined}
             colorScaleConfiguration={{
                 selectedColorScale: {
                     type: colorScalePresets[selectedColorScaleId][0],
@@ -2537,17 +2551,38 @@ const App: React.FunctionComponent = () => {
                                     duration={getHistoricalDataDuration()}
                                     isLocked={animationTween !== undefined || timeSliderUsed}
                                 >
-                                    {outsideTemperatureAssetId && outsideTemperatureSensorId ? (
-                                        <TASAHistoricalDataDispatcher
-                                            sensorIds={[outsideTemperatureSensorId]}
-                                            assetId={outsideTemperatureAssetId}
-                                            from={getHistoricalDataDate()}
-                                            samplingMode={samplingMode}
-                                            duration={getHistoricalDataDuration()}
-                                            isLocked={animationTween !== undefined || timeSliderUsed}
-                                        >
-                                            {children}
-                                        </TASAHistoricalDataDispatcher>
+                                    {outsideTemperatureSensorsMapped ? (
+                                        <>
+                                            {Array.from(outsideTemperatureSensorsMapped.entries()).map(([assetId, sensorIds], index) => {
+                                                if (index === 0) {
+                                                    return (
+                                                        <TASAHistoricalDataDispatcher
+                                                            key={assetId}
+                                                            sensorIds={sensorIds}
+                                                            assetId={assetId}
+                                                            from={getHistoricalDataDate()}
+                                                            samplingMode={samplingMode}
+                                                            duration={getHistoricalDataDuration()}
+                                                            isLocked={animationTween !== undefined || timeSliderUsed}
+                                                        >
+                                                            {children}
+                                                        </TASAHistoricalDataDispatcher>
+                                                    );
+                                                } else {
+                                                    return (
+                                                        <TASAHistoricalDataDispatcher
+                                                            key={assetId}
+                                                            sensorIds={sensorIds}
+                                                            assetId={assetId}
+                                                            from={getHistoricalDataDate()}
+                                                            samplingMode={samplingMode}
+                                                            duration={getHistoricalDataDuration()}
+                                                            isLocked={animationTween !== undefined || timeSliderUsed}
+                                                        />
+                                                    );
+                                                }
+                                            })}
+                                        </>
                                     ) : (
                                         <>{children}</>
                                     )}

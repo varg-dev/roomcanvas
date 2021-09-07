@@ -49,7 +49,12 @@ export const TASAStaticDataDispatcher: React.FunctionComponent<{
                 }
             });
         }
-    }, []);
+    }, [
+        // To make the useEffect hook only trigger on actual changes of the sensorIds array **content**,
+        // an ES6 template literal representation of the array is used
+        // @see https://stackoverflow.com/a/65728647
+        `${sensorIds}`,
+    ]);
 
     return <>{children}</>;
 };

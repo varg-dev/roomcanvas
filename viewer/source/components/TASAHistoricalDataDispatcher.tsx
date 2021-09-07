@@ -86,7 +86,20 @@ export const TASAHistoricalDataDispatcher: React.FunctionComponent<{
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [tasaGetApiUri, dispatch, from, assetId, sensorIds, samplingMode, isLocked]);
+    }, [
+        tasaGetApiUri,
+        dispatch,
+        // To make the useEffect hook only trigger on actual changes of the from DateTime **timestamp**,
+        // an ES6 template literal representation of the DateTime object is used
+        `${from}`,
+        assetId,
+        // To make the useEffect hook only trigger on actual changes of the sensorIds array **content**,
+        // an ES6 template literal representation of the array is used
+        // @see https://stackoverflow.com/a/65728647
+        `${sensorIds}`,
+        samplingMode,
+        isLocked,
+    ]);
 
     return <>{children}</>;
 };

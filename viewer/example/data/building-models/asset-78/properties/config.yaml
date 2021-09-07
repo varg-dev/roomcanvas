@@ -44,8 +44,13 @@ positionAndLocale:
 defaultDisplayConfiguration:
     labeledSensorIds: [324, 329, 334, 340, 344, 348]
     liveDataSensorIds: [324, 329, 334, 340, 344, 348]
-    outsideTemperatureAssetId: 78
-    outsideTemperatureSensorId: 380
+    outsideTemperatureSensors: # An ordered list of sensors considered for the outside temperature; if one does not provide current values, the next one is queried
+        - assetId: 78
+          sensorId: 380
+        - assetId: 78
+          sensorId: 379
+        - assetId: 18
+          sensorId: 65
     storedCameraPositions:
         - center: [7.8, 0.0, 3.9]
           eye: [22.7, 23.4, 20.2]

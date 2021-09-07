@@ -375,25 +375,67 @@ const RoomCanvasViewer: React.FunctionComponent<RoomCanvasViewerProps> & {
         application.renderer.sensorValueLabels = props.sensorValueLabels;
         application.renderer.updateLabels();
         application.renderer.forceRerender();
-    }, [props.sensorValueLabels, application.renderer]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [
+        // To make the useEffect hook only trigger on actual changes of the sensorValueLabels array **content**,
+        // an ES6 template literal representation of the array is used
+        // @see https://stackoverflow.com/a/65728647
+        // eslint-disable-next-line react-hooks/exhaustive-deps, @typescript-eslint/restrict-template-expressions
+        `${props.sensorValueLabels}`,
+        application.renderer,
+    ]);
 
     useEffect(() => {
         if (application.renderer.initialized === false) {
             return;
+        }
+        let updateIndices = false;
+        if (
+            JSON.stringify([...new Set(props.sensorValues?.map((sensorValue) => sensorValue.sensorId))]) !==
+            JSON.stringify([...new Set(application.renderer.sensorValues?.map((sensorValue) => sensorValue.sensorId))])
+        ) {
+            updateIndices = true;
         }
         application.renderer.sensorValues = props.sensorValues;
-        application.renderer.updateSensorValues();
+        if (updateIndices) {
+            application.renderer.onSensorIndicesChange();
+        }
         application.renderer.forceRerender();
-    }, [props.sensorValues, application.renderer]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [
+        // To make the useEffect hook only trigger on actual changes of the sensorValues array **content**,
+        // an ES6 template literal representation of the array is used
+        // @see https://stackoverflow.com/a/65728647
+        // eslint-disable-next-line react-hooks/exhaustive-deps, @typescript-eslint/restrict-template-expressions
+        `${props.sensorValues}`,
+        application.renderer,
+    ]);
 
     useEffect(() => {
         if (application.renderer.initialized === false) {
             return;
         }
+        let updateIndices = false;
+        if (
+            JSON.stringify([...new Set(props.assetValues?.map((assetValue) => assetValue.assetId))]) !==
+            JSON.stringify([...new Set(application.renderer.assetValues?.map((assetValue) => assetValue.assetId))])
+        ) {
+            updateIndices = true;
+        }
         application.renderer.assetValues = props.assetValues;
-        application.renderer.updateSensorValues();
+        if (updateIndices) {
+            application.renderer.onAssetIndicesChange();
+        }
         application.renderer.forceRerender();
-    }, [props.assetValues, application.renderer]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [
+        // To make the useEffect hook only trigger on actual changes of the assetValues array **content**,
+        // an ES6 template literal representation of the array is used
+        // @see https://stackoverflow.com/a/65728647
+        // eslint-disable-next-line react-hooks/exhaustive-deps, @typescript-eslint/restrict-template-expressions
+        `${props.assetValues}`,
+        application.renderer,
+    ]);
 
     useEffect(() => {
         if (application.renderer.initialized === false) {
@@ -409,7 +451,15 @@ const RoomCanvasViewer: React.FunctionComponent<RoomCanvasViewerProps> & {
         }
         application.renderer.volumeVisibleDistances = props.volumeVisibleDistances;
         application.renderer.forceRerender();
-    }, [props.volumeVisibleDistances, application.renderer]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [
+        // To make the useEffect hook only trigger on actual changes of the volumeVisibleDistances array **content**,
+        // an ES6 template literal representation of the array is used
+        // @see https://stackoverflow.com/a/65728647
+        // eslint-disable-next-line react-hooks/exhaustive-deps, @typescript-eslint/restrict-template-expressions
+        `${props.volumeVisibleDistances}`,
+        application.renderer,
+    ]);
 
     useEffect(() => {
         if (application.renderer.initialized === false) {
@@ -417,15 +467,15 @@ const RoomCanvasViewer: React.FunctionComponent<RoomCanvasViewerProps> & {
         }
         application.renderer.volumeBboxCubeMin = props.volumeBboxCubeMin;
         application.renderer.forceRerender();
-    }, [props.volumeBboxCubeMin, application.renderer]);
-
-    useEffect(() => {
-        if (application.renderer.initialized === false) {
-            return;
-        }
-        application.renderer.apartmentBboxMin = props.apartmentBboxMin;
-        application.renderer.forceRerender();
-    }, [props.apartmentBboxMin, application.renderer]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [
+        // To make the useEffect hook only trigger on actual changes of the volumeBboxCubeMin array **content**,
+        // an ES6 template literal representation of the array is used
+        // @see https://stackoverflow.com/a/65728647
+        // eslint-disable-next-line react-hooks/exhaustive-deps, @typescript-eslint/restrict-template-expressions
+        `${props.volumeBboxCubeMin}`,
+        application.renderer,
+    ]);
 
     useEffect(() => {
         if (application.renderer.initialized === false) {
@@ -433,7 +483,47 @@ const RoomCanvasViewer: React.FunctionComponent<RoomCanvasViewerProps> & {
         }
         application.renderer.volumeBboxCubeMax = props.volumeBboxCubeMax;
         application.renderer.forceRerender();
-    }, [props.volumeBboxCubeMax, application.renderer]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [
+        // To make the useEffect hook only trigger on actual changes of the volumeBboxCubeMax array **content**,
+        // an ES6 template literal representation of the array is used
+        // @see https://stackoverflow.com/a/65728647
+        // eslint-disable-next-line react-hooks/exhaustive-deps, @typescript-eslint/restrict-template-expressions
+        `${props.volumeBboxCubeMax}`,
+        application.renderer,
+    ]);
+
+    useEffect(() => {
+        if (application.renderer.initialized === false) {
+            return;
+        }
+        application.renderer.apartmentBboxMin = props.apartmentBboxMin;
+        application.renderer.forceRerender();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [
+        // To make the useEffect hook only trigger on actual changes of the apartmentBboxMin array **content**,
+        // an ES6 template literal representation of the array is used
+        // @see https://stackoverflow.com/a/65728647
+        // eslint-disable-next-line react-hooks/exhaustive-deps, @typescript-eslint/restrict-template-expressions
+        `${props.apartmentBboxMin}`,
+        application.renderer,
+    ]);
+
+    useEffect(() => {
+        if (application.renderer.initialized === false) {
+            return;
+        }
+        application.renderer.apartmentBboxMax = props.apartmentBboxMax;
+        application.renderer.forceRerender();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [
+        // To make the useEffect hook only trigger on actual changes of the apartmentBboxMax array **content**,
+        // an ES6 template literal representation of the array is used
+        // @see https://stackoverflow.com/a/65728647
+        // eslint-disable-next-line react-hooks/exhaustive-deps, @typescript-eslint/restrict-template-expressions
+        `${props.apartmentBboxMax}`,
+        application.renderer,
+    ]);
 
     useEffect(() => {
         if (application.renderer.initialized === false) {
@@ -450,14 +540,6 @@ const RoomCanvasViewer: React.FunctionComponent<RoomCanvasViewerProps> & {
         application.renderer.buildingModelContainsLightmap = props.buildingModelContainsLightmap;
         application.renderer.forceRerender();
     }, [props.buildingModelContainsLightmap, application.renderer]);
-
-    useEffect(() => {
-        if (application.renderer.initialized === false) {
-            return;
-        }
-        application.renderer.apartmentBboxMax = props.apartmentBboxMax;
-        application.renderer.forceRerender();
-    }, [props.apartmentBboxMax, application.renderer]);
 
     useEffect(() => {
         if (application.renderer.initialized === false) {
@@ -501,7 +583,15 @@ const RoomCanvasViewer: React.FunctionComponent<RoomCanvasViewerProps> & {
             application.renderer.sunPosition = props.sunPosition;
         }
         application.renderer.forceRerender();
-    }, [props.sunPosition, application.renderer]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [
+        // To make the useEffect hook only trigger on actual changes of the sunPosition array **content**,
+        // an ES6 template literal representation of the array is used
+        // @see https://stackoverflow.com/a/65728647
+        // eslint-disable-next-line react-hooks/exhaustive-deps, @typescript-eslint/restrict-template-expressions
+        `${props.sunPosition}`,
+        application.renderer,
+    ]);
 
     useEffect(() => {
         if (application.renderer.initialized === false) {
@@ -573,7 +663,15 @@ const RoomCanvasViewer: React.FunctionComponent<RoomCanvasViewerProps> & {
             }
         }
         application.renderer.forceRerender();
-    }, [props.sampledCustomTransparencyTransferFunctionPoints, application.renderer]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [
+        // To make the useEffect hook only trigger on actual changes of the sampledCustomTransparencyTransferFunctionPoints array **content**,
+        // an ES6 template literal representation of the array is used
+        // @see https://stackoverflow.com/a/65728647
+        // eslint-disable-next-line react-hooks/exhaustive-deps, @typescript-eslint/restrict-template-expressions
+        `${props.sampledCustomTransparencyTransferFunctionPoints}`,
+        application.renderer,
+    ]);
 
     useEffect(() => {
         if (application.renderer.initialized === false) {

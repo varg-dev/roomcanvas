@@ -226,7 +226,7 @@ export class RoomCanvasRenderer extends Renderer {
     protected _fontSizeInMeters = 1.0;
     protected _buildingModelContainsLightmap = false;
 
-    protected _assetContentRoot = '/data/building-models/asset-78/';
+    protected _assetContentRoot = undefined as undefined | string;
 
     protected _shadowMappingConfiguration: ShadowMappingConfiguration = {
         type: ShadowMappingMode.ShadowMapping,
@@ -851,7 +851,7 @@ export class RoomCanvasRenderer extends Renderer {
         return this._buildingModelContainsLightmap;
     }
 
-    set assetContentRoot(assetContentRoot: string) {
+    set assetContentRoot(assetContentRoot: string | undefined) {
         if (this._assetContentRoot === assetContentRoot) {
             return;
         }
@@ -859,7 +859,7 @@ export class RoomCanvasRenderer extends Renderer {
         this._altered.alter('assetContentRoot');
     }
 
-    get assetContentRoot(): string {
+    get assetContentRoot(): string | undefined {
         return this._assetContentRoot;
     }
 
@@ -1191,7 +1191,7 @@ export class RoomCanvasRenderer extends Renderer {
         return this._hoverEventSubject.asObservable();
     }
 
-    updateSensorValues(): void {
+    onSensorIndicesChange(): void {
         const sensorValuesUniforms = [];
         const debugSensorIndicesUniforms = [];
         const volumeSensorValuesUniforms = [];
@@ -1212,7 +1212,7 @@ export class RoomCanvasRenderer extends Renderer {
         }
     }
 
-    updateAssetValues(): void {
+    onAssetIndicesChange(): void {
         const assetValuesUniforms = [];
         const assetIndicesUniforms = [];
 
@@ -2590,11 +2590,13 @@ export class RoomCanvasRenderer extends Renderer {
         this._outsideDistanceMapTexture3D.wrap(gl.CLAMP_TO_EDGE, gl.CLAMP_TO_EDGE, gl.CLAMP_TO_EDGE);
         this._outsideDistanceMapTexture3D.filter(gl.LINEAR, gl.LINEAR);
 
-        void this._outsideDistanceMapTexture3D
-            .load(`https://roomcanvas.dev/demo/${this.assetContentRoot}distance-maps/outside.png`, this.distanceMapHeightSlices, false, true)
-            .then(() => {
-                this.invalidate(true);
-            });
+        if (this.assetContentRoot) {
+            void this._outsideDistanceMapTexture3D
+                .load(`${this.assetContentRoot}distance-maps/outside.png`, this.distanceMapHeightSlices, false, true)
+                .then(() => {
+                    this.invalidate(true);
+                });
+        }
 
         this.createColorScaleTexture(
             context,
@@ -3338,20 +3340,20 @@ export class RoomCanvasRenderer extends Renderer {
             }
         }
 
+        if (this._altered.assetContentRoot && this.assetContentRoot) {
+            void this._outsideDistanceMapTexture3D
+                .load(`${this.assetContentRoot}distance-maps/outside.png`, this.distanceMapHeightSlices, false, true)
+                .then(() => {
+                    this.invalidate(true);
+                });
+        }
+
         if (this._altered.buildingModelHierarchyGltfUri) {
             void this.loadAsset(true);
         }
 
         if (this._altered.ssaoConfig) {
             this.createSSAOKernel();
-        }
-
-        if (this._altered.sensorValues) {
-            this.updateSensorValues();
-        }
-
-        if (this._altered.assetValues) {
-            this.updateAssetValues();
         }
 
         if (this._altered.frameSize) {
@@ -4411,7 +4413,7 @@ export class RoomCanvasRenderer extends Renderer {
         if (hierarchyOnly === undefined || !hierarchyOnly) {
             const uri = this._buildingModelGltfUri;
             this._assetPass.scene = undefined;
-    
+
             const assetPromise = new Promise<void>((resolve) => {
                 this._loader.uninitialize();
                 void this._loader.loadAsset(uri).then(() => {
@@ -4420,7 +4422,7 @@ export class RoomCanvasRenderer extends Renderer {
                     resolve();
                 });
             });
-    
+
             loadingPromises.push(assetPromise);
         }
 
@@ -4445,10 +4447,15 @@ export class RoomCanvasRenderer extends Renderer {
     }
 
     protected initializeSensorDistanceMapTexture3D(sensorValues: SensorValue[]): Promise<void> {
+        if (!this.assetContentRoot) {
+            return new Promise((resolve) => resolve());
+        }
+
         const promises = [] as Array<Promise<void>>;
 
         const pathsHigh = sensorValues.map(
-            (sensorValue) => `${this.assetContentRoot}distance-maps/sensor_${sensorValue.sensorId}_high.png`,
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            (sensorValue) => `${this.assetContentRoot!}distance-maps/sensor_${sensorValue.sensorId}_high.png`,
         );
 
         promises.push(
@@ -4461,7 +4468,8 @@ export class RoomCanvasRenderer extends Renderer {
             }),
         );
 
-        const pathsLow = sensorValues.map((sensorValue) => `${this.assetContentRoot}distance-maps/sensor_${sensorValue.sensorId}_low.png`);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const pathsLow = sensorValues.map((sensorValue) => `${this.assetContentRoot!}distance-maps/sensor_${sensorValue.sensorId}_low.png`);
 
         promises.push(
             new Promise<void>((resolve) => {
