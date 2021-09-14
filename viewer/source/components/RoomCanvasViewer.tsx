@@ -378,10 +378,9 @@ const RoomCanvasViewer: React.FunctionComponent<RoomCanvasViewerProps> & {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
         // To make the useEffect hook only trigger on actual changes of the sensorValueLabels array **content**,
-        // an ES6 template literal representation of the array is used
-        // @see https://stackoverflow.com/a/65728647
-        // eslint-disable-next-line react-hooks/exhaustive-deps, @typescript-eslint/restrict-template-expressions
-        `${props.sensorValueLabels}`,
+        // the JSON representation of the array (of objects) is used
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        JSON.stringify(props.sensorValueLabels),
         application.renderer,
     ]);
 
@@ -404,10 +403,9 @@ const RoomCanvasViewer: React.FunctionComponent<RoomCanvasViewerProps> & {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
         // To make the useEffect hook only trigger on actual changes of the sensorValues array **content**,
-        // an ES6 template literal representation of the array is used
-        // @see https://stackoverflow.com/a/65728647
-        // eslint-disable-next-line react-hooks/exhaustive-deps, @typescript-eslint/restrict-template-expressions
-        `${props.sensorValues}`,
+        // the JSON representation of the array (of objects) is used
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        JSON.stringify(props.sensorValues),
         application.renderer,
     ]);
 
@@ -430,10 +428,9 @@ const RoomCanvasViewer: React.FunctionComponent<RoomCanvasViewerProps> & {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
         // To make the useEffect hook only trigger on actual changes of the assetValues array **content**,
-        // an ES6 template literal representation of the array is used
-        // @see https://stackoverflow.com/a/65728647
-        // eslint-disable-next-line react-hooks/exhaustive-deps, @typescript-eslint/restrict-template-expressions
-        `${props.assetValues}`,
+        // the JSON representation of the array (of objects) is used
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        JSON.stringify(props.assetValues),
         application.renderer,
     ]);
 
@@ -666,10 +663,9 @@ const RoomCanvasViewer: React.FunctionComponent<RoomCanvasViewerProps> & {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
         // To make the useEffect hook only trigger on actual changes of the sampledCustomTransparencyTransferFunctionPoints array **content**,
-        // an ES6 template literal representation of the array is used
-        // @see https://stackoverflow.com/a/65728647
-        // eslint-disable-next-line react-hooks/exhaustive-deps, @typescript-eslint/restrict-template-expressions
-        `${props.sampledCustomTransparencyTransferFunctionPoints}`,
+        // the JSON representation of the array (of [x, y] arrays) is used
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        JSON.stringify(props.sampledCustomTransparencyTransferFunctionPoints),
         application.renderer,
     ]);
 
